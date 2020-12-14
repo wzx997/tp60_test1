@@ -32,8 +32,8 @@ class ApiAuthMiddleware
                 ->where('token', '=', $token)
                 ->field('id,create_time')
                 ->find();
-            if (is_null($login_log)) {
-                return $this->response(10001, '您无权访问此接口');
+            if (is_null($login_log)) {// 如果未传token，提示无权访问
+                return $this->response(10001, '您无权访问');
             }
             // 一天免登录
             $time = strtotime($login_log['create_time']) + 24 * 60 * 60;
