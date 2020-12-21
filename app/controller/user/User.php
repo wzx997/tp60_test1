@@ -92,4 +92,58 @@ class User extends BaseController
             return $this->resFail('登录异常');
         }
     }
+
+    /**
+     * 用户列表查询接口
+     * @return \think\response\Json
+     */
+    public function getUserList()
+    {
+        $username = $this->request->post('username', ''); // 用户名模糊匹配
+        $start_time = $this->request->post('start_time', ''); // 注册开始时间
+        $end_time = $this->request->post('end_time', ''); // 注册结束字节
+        $page_num = $this->request->post('page_num', 1); // 分页第几页，默认第一页
+        $page_size = $this->request->post('page_size', 10); // 每页数据量，默认10条
+        $sort_key = $this->request->post('sort_key', 'id'); // 排序字段，默认id
+        $sort_value = $this->request->post('sort_value', 'asc'); // 排序贵州，默认asc
+
+        // 构造查询条件
+        $condition = [];
+        // 处理搜索字段
+        if (!empty($username)) {
+            $condition[] = ['username', 'like', "%{$username}%"];
+        }
+        if (!empty($start_time) and !empty($end_time)) {
+            $condition[] = ['create_time', 'between', [$start_time, $end_time]];
+        }
+        // 处理排序字段
+        if (empty($page_num) or !is_numeric($page_num)) {
+            $page_num = 1;
+        }
+        if (empty($page_size) or !is_numeric($page_size)) {
+            $page_size = 10;
+        }
+        // 处理排序字段
+        if (empty($sort_key)) {
+            $sort_key = 'id';
+        }
+        if (empty($sort_value)) {
+            $sort_value = 'asc';
+        }
+
+        try {
+            $users = Db::table('tp_user')
+                ->field('id,username,mobile,email,create_time')
+                ->where($condition)
+                ->where('is_del', '=', 0)
+                ->page($page_num, $page_size)
+                ->order($sort_key, $sort_value)
+                ->select();
+        } catch (\Throwable $e) {
+            $this->writeLog($e);
+            return $this->resFail('获取用户列表失败');
+        }
+
+        return $this->resSuccess($users);
+    }
 }

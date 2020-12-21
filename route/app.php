@@ -32,3 +32,4 @@ Route::get('test3', 'test.Test/test3');
 // 用户模块
 Route::post('reg', 'user.User/reg'); //注册
 Route::post('login', 'user.User/login'); //登录
+Route::post('getUserList', 'user.User/getUserList'); //登录
