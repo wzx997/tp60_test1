@@ -33,3 +33,4 @@ Route::get('test3', 'test.Test/test3');
 Route::post('reg', 'user.User/reg'); //注册
 Route::post('login', 'user.User/login'); //登录
 Route::post('getUserList', 'user.User/getUserList'); //查询用户列表
+Route::post('updateUser', 'user.User/updateUser'); // 更新用户

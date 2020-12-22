@@ -152,4 +152,35 @@ class User extends BaseController
 
         return $this->resSuccess(['total' => $total, 'list' => $users]);
     }
+
+    /**
+     * 更新用户信息。仅更新手机号码和邮箱
+     * @return \think\response\Json
+     */
+    public function updateUser()
+    {
+        $data = $this->request->post();
+
+        $rule = [
+            'id|用户ID' => 'require',
+            'email|邮箱' => 'email',
+            'mobile|手机号' => 'mobile'
+        ];
+        $validate = Validate::rule($rule); //参数校验
+
+        if (!$validate->check($data)) {
+            return $this->resFail($validate->getError());
+        }
+
+        try {
+            Db::table('tp_user')
+                ->where('id', '=', $data['id'])
+                ->update(['email' => $data['email'], 'mobile' => $data['mobile']]);
+        } catch (\Throwable $e) {
+            $this->writeLog($e);
+            return $this->resFail('更新失败');
+        }
+
+        return $this->resSuccess([], '更新成功');
+    }
 }
