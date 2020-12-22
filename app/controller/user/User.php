@@ -132,6 +132,12 @@ class User extends BaseController
         }
 
         try {
+            $total = Db::table('tp_user')
+                ->field('id,username,mobile,email,create_time')
+                ->where($condition)
+                ->where('is_del', '=', 0)
+                ->count();
+
             $users = Db::table('tp_user')
                 ->field('id,username,mobile,email,create_time')
                 ->where($condition)
@@ -144,6 +150,6 @@ class User extends BaseController
             return $this->resFail('获取用户列表失败');
         }
 
-        return $this->resSuccess($users);
+        return $this->resSuccess(['total' => $total, 'list' => $users]);
     }
 }
