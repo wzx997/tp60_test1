@@ -36,10 +36,20 @@ class User extends BaseController
         try {
             $user = Db::table('tp_user')
                 ->where('username', '=', $data['username'])
-                ->field('id')
+                ->whereOr('mobile', '=', $data['mobile'])
+                ->whereOr('email', '=', $data['email'])
+                ->field('username,mobile,email')
                 ->find();
             if (!is_null($user)) {
-                return $this->resFail('该用户名已被注册');
+                if ($user['username'] == $data['username']) {
+                    return $this->resFail('该用户名已被注册');
+                }
+                if ($user['mobile'] == $data['mobile']) {
+                    return $this->resFail('该手机号已被注册');
+                }
+                if ($user['email'] == $data['email']) {
+                    return $this->resFail('该邮箱已被注册');
+                }
             }
 
             Db::table('tp_user')->insert($data);
