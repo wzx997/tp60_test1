@@ -16,7 +16,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 class Email
 {
     /**
-     * 培训选择，仅支持调试模式与字符集配置
+     * 配置选择，仅支持调试模式与字符集配置
      * @var array
      */
     public $options = [
