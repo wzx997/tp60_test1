@@ -34,3 +34,7 @@ Route::post('reg', 'user.User/reg'); //注册
 Route::post('login', 'user.User/login'); //登录
 Route::post('getUserList', 'user.User/getUserList'); //查询用户列表
 Route::post('updateUser', 'user.User/updateUser'); // 更新用户
+
+// 测试模块
+Route::post('testSendEmail', 'common.TestAPI/testSendEmail'); // 测试发送邮件
+Route::post('testSendEmail2', 'common.TestAPI/testSendEmail2'); // 测试发送邮件
