@@ -216,8 +216,8 @@ class User extends BaseController
 
         $code = Code::getCode();  // 获取验证码
         $mail = new Email(); // 获取邮箱对象实例
-        $body = "尊敬的<b> {$data['username']}</b> 用户，你好！
-            你本次找回密码操作验证码为：<b>{$code}</b>，请勿泄露，请尽快操作，五分钟内有效。";
+        $body = "尊敬的<b> {$data['username']}</b> 用户，你好！你本次找回密码操作验证
+            码为：<span style='font-size: 20px'>{$code}</span>，请勿泄露，请尽快操作，十分钟内有效。";
 
         try {
             $user = Db::table('tp_user')
@@ -238,7 +238,7 @@ class User extends BaseController
                 $insert_data = [
                     'user_id'     => $user['id'],
                     'code'        => $code,
-                    'expire_time' => time() + 5 *60
+                    'expire_time' => time() + 10 *60
                 ];
                 Db::table('tp_user_code')->insert($insert_data);
                 return $this->resSuccess([], '验证码发送成功，请到邮箱查询');

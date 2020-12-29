@@ -16,7 +16,7 @@ class Code
      * @param int $num 掩码码长度，默认是6位，不能小于1，不能大于62
      * @return string 验证码
      */
-    public static function getCode($num=6)
+    public static function getCode($num = 6)
     {
         // 初始化数组a-z A-Z 0-9
         $arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
