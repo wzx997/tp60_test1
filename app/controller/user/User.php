@@ -5,6 +5,8 @@ namespace app\controller\user;
 
 
 use app\BaseController;
+use app\common\Code;
+use app\common\Email;
 use think\facade\Db;
 use think\facade\Validate;
 
@@ -192,5 +194,60 @@ class User extends BaseController
         }
 
         return $this->resSuccess([], '更新成功');
+    }
+
+    /**
+     * 找回密码操作 发送邮件验证码接口
+     * @return \think\response\Json
+     */
+    public function getCodeByEmail()
+    {
+        $data = $this->request->post();
+
+        $rule = [
+            'username|用户名' => 'require',
+            'email|邮箱' => 'require|email'
+        ];
+        $validate = Validate::rule($rule); //参数校验
+
+        if (!$validate->check($data)) {
+            return $this->resFail($validate->getError());
+        }
+
+        $code = Code::getCode();  // 获取验证码
+        $mail = new Email(); // 获取邮箱对象实例
+        $body = "尊敬的<b> {$data['username']}</b> 用户，你好！
+            你本次找回密码操作验证码为：<b>{$code}</b>，请勿泄露，请尽快操作，五分钟内有效。";
+
+        try {
+            $user = Db::table('tp_user')
+                ->field('id')
+                ->where('username', '=', $data['username'])
+                ->where('email', '=', $data['email'])
+                ->find();
+            if (is_null($user)) {
+                return $this->resFail('用户名与邮箱不匹配');
+            }
+
+            $email_res = $mail->to($data['email'])
+                ->subject('找回密码')
+                ->fromName('超级平台 邮件')
+                ->message($body, true)
+                ->send();
+            if ($email_res) { // 邮件发送成功
+                $insert_data = [
+                    'user_id'     => $user['id'],
+                    'code'        => $code,
+                    'expire_time' => time() + 5 *60
+                ];
+                Db::table('tp_user_code')->insert($insert_data);
+                return $this->resSuccess([], '验证码发送成功，请到邮箱查询');
+            } else {
+                return $this->resFail([], '验证码发送失败');
+            }
+        } catch (\Throwable $e) {
+            $this->writeLog($e);
+            return $this->resFail('发送验证码失败'.$e->getMessage());
+        }
     }
 }
