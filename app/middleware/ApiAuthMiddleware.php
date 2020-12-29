@@ -19,6 +19,8 @@ class ApiAuthMiddleware
             '/test',
             '/reg',
             '/login',
+            '/getCodeByEmail', // 重置密码时发送验证码接口
+            '/resetPassword', // 重置密码接口
         ]; // 白名单列表，
 
         if (in_array($url, $notNeedAuth)) {// 白名单的接口不用认证

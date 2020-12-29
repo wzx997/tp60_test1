@@ -56,8 +56,8 @@ class User extends BaseController
 
             Db::table('tp_user')->insert($data);
         } catch (\Throwable $e) {
-            $this->writeLog($e->getMessage());
-            return $this->resFail('注册失败');
+            $this->writeLog($e);
+            return $this->resFail('注册失败'.$e->getMessage());
         }
 
         return $this->resSuccess([], '注册成功');
@@ -216,8 +216,8 @@ class User extends BaseController
 
         $code = Code::getCode();  // 获取验证码
         $mail = new Email(); // 获取邮箱对象实例
-        $body = "尊敬的<b> {$data['username']}</b> 用户，你好！你本次找回密码操作验证
-            码为：<span style='font-size: 20px'>{$code}</span>，请勿泄露，请尽快操作，十分钟内有效。";
+        $body = "尊敬的<b> {$data['username']}</b> 用户，你好！你本次找回密码操作验证码为
+            ：<span style='font-size: 20px'>{$code}</span>，请勿泄露，请尽快操作，十分钟内有效。";
 
         try {
             $user = Db::table('tp_user')
@@ -248,6 +248,64 @@ class User extends BaseController
         } catch (\Throwable $e) {
             $this->writeLog($e);
             return $this->resFail('发送验证码失败'.$e->getMessage());
+        }
+    }
+
+    /**
+     * 重置密码
+     * @return \think\response\Json
+     */
+    public function resetPassword()
+    {
+        $data = $this->request->post();
+
+        $rule = [
+            'username|用户名' => 'require',
+            'email|邮箱' => 'require|email',
+            'code|验证码' => 'require',
+            'password|密码' => 'require|length:6,20',
+        ];
+        $validate = Validate::rule($rule); //参数校验
+
+        if (!$validate->check($data)) {
+            return $this->resFail($validate->getError());
+        }
+
+        Db::startTrans(); // 开启事务
+        try {
+            $user = Db::table('tp_user u')
+                ->leftJoin('tp_user_code c', 'c.user_id=u.id')
+                ->field('u.id')
+                ->where('u.username', '=', $data['username'])
+                ->where('u.email', '=', $data['email'])
+                ->where('c.code', '=', $data['code'])
+                ->where('c.expire_time', '>', time())
+                ->where('c.is_del', '=', 0)
+                ->find();
+
+            if (!is_null($user)) {
+                $password = password_hash($data['password'], PASSWORD_DEFAULT);
+                // 更新密码
+                Db::table('tp_user')
+                    ->where('username', '=', $data['username'])
+                    ->where('email', '=', $data['email'])
+                    ->update(['password' => $password]);
+                // 将使用后的验证码标记删除，防止有限期内再次使用
+                Db::table('tp_user_code')
+                    ->where('user_id', '=', $user['id'])
+                    ->where('code', '=', $data['code'])
+                    ->update(['is_del' => 1]);
+                // 提交事务
+                Db::commit();
+
+                return $this->resSuccess([], '重置密码成功');
+            } else {
+                return $this->resFail('验证码错误或已过期，请重试');
+            }
+        } catch (\Throwable $e) {
+            $this->writeLog($e);
+            Db::rollback(); // 异常回滚事务
+            return $this->resFail('重置密码异常'.$e->getMessage());
         }
     }
 }
