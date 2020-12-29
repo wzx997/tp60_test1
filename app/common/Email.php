@@ -85,7 +85,7 @@ class Email
      * @param bool $is_html 是否是HTML内容，为真可以解析html内容，为假无法解析
      * @return $this 链式操作当前类实例对象
      */
-    public function message($body, $is_html = false) {
+    public function message(string $body, $is_html = false) {
         $this->mail->isHTML($is_html); // 是否是html邮件
         $this->mail->Body = $body;
         return $this;
@@ -129,7 +129,7 @@ class Email
      * @return $this 链式操作当前类实例对象
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function addAttachment($path, $name = '') {
+    public function addAttachment(string $path, $name = '') {
         $this->mail->addAttachment($path, $name);
         return $this;
     }
