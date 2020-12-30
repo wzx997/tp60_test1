@@ -23,8 +23,8 @@ class User extends BaseController
         $rule = [
             'username|用户名' => 'require|length:1,20',
             'password|密码' => 'require|length:6,20',
-            'email|邮箱' => 'email',
-            'mobile|手机号' => 'mobile'
+            'email|邮箱' => 'require|email',
+            'mobile|手机号' => 'require|mobile'
         ];
         $validate = Validate::rule($rule); //参数校验
 
