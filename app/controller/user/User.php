@@ -185,15 +185,31 @@ class User extends BaseController
         }
 
         try {
+            $user = Db::table('tp_user')
+                ->field('mobile,email')
+                ->where('id', '<>', $data['id'])
+                ->where(function ($query) use ($data) {
+                    $query->where('email', '=', $data['email'])
+                        ->whereOr('mobile', '=', $data['mobile']);
+                })
+                ->find();
+            if (!is_null($user)) {// 手机号与邮箱地址被注册
+                if ($user['mobile'] == $data['mobile']) {
+                    return $this->resFail('该手机号已被注册');
+                }
+                if ($user['email'] == $data['email']) {
+                    return $this->resFail('该邮箱已被注册');
+                }
+            }
+
             Db::table('tp_user')
                 ->where('id', '=', $data['id'])
                 ->update(['email' => $data['email'], 'mobile' => $data['mobile']]);
+            return $this->resSuccess([], '更新成功');
         } catch (\Throwable $e) {
             $this->writeLog($e);
             return $this->resFail('更新失败');
         }
-
-        return $this->resSuccess([], '更新成功');
     }
 
     /**
