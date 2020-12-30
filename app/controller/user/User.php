@@ -238,7 +238,7 @@ class User extends BaseController
                 $insert_data = [
                     'user_id'     => $user['id'],
                     'code'        => $code,
-                    'expire_time' => time() + 10 *60
+                    'expire_time' => time() + 10 * 60
                 ];
                 Db::table('tp_user_code')->insert($insert_data);
                 return $this->resSuccess([], '验证码发送成功，请到邮箱查询');
