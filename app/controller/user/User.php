@@ -111,12 +111,12 @@ class User extends BaseController
      */
     public function getUserList()
     {
-        $username = $this->request->post('username', ''); // 用户名模糊匹配
+        $username   = $this->request->post('username', ''); // 用户名模糊匹配
         $start_time = $this->request->post('start_time', ''); // 注册开始时间
-        $end_time = $this->request->post('end_time', ''); // 注册结束字节
-        $page_num = $this->request->post('page_num', 1); // 分页第几页，默认第一页
-        $page_size = $this->request->post('page_size', 10); // 每页数据量，默认10条
-        $sort_key = $this->request->post('sort_key', 'id'); // 排序字段，默认id
+        $end_time   = $this->request->post('end_time', ''); // 注册结束字节
+        $page_num   = $this->request->post('page_num', 1); // 分页第几页，默认第一页
+        $page_size  = $this->request->post('page_size', 10); // 每页数据量，默认10条
+        $sort_key   = $this->request->post('sort_key', 'id'); // 排序字段，默认id
         $sort_value = $this->request->post('sort_value', 'asc'); // 排序贵州，默认asc
 
         // 构造查询条件
