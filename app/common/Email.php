@@ -136,7 +136,7 @@ class Email
 
     /**
      * 发送邮件：凡是采用链式方法调用的方式，必须做异常捕获，否则异常发送将会导致程序终止
-     * @return bool 发送结果。为真发送成功，为加发送失败
+     * @return bool 发送结果。为真发送成功，为假发送失败
      * @throws \PHPMailer\PHPMailer\Exception
      */
     public function send()
