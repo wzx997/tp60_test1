@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "e008a91e-6a22-4e1b-afa1-12c57fb23c0f",
+		"name": "www.tp6-test.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "测试1:验证框架是否配置正确",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "www.tp6-test.com/cors2",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"cors2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "测试2：post请求",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "d996dce3b1f7a72a82f4dfb659f3b986",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.tp6-test.com/test2",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"test2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "测试3：get测试",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "www.tp6-test.com/logind",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"logind"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "01用户注册",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"123456\",\r\n    \"email\":\"506820172@qq.com\",\r\n    \"mobile\":\"18300961210\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/reg",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"reg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02用户登录",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/login",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03鉴权测试",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "02d77e41ad970b7e896f49fe12a8a98b",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin200\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/test2",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"test2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03用户列表查询",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"type": "text",
+						"value": "6210aebd51b1db81ea98118491afcb44"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"start_time\":\"2020-12-01\",\r\n    \"end_time\":\"2020-12-31\",\r\n    \"page_num\":\"\",\r\n    \"page_size\":\"\",\r\n    \"sort_key\":\"\",\r\n    \"sort_value\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/getUserList",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"getUserList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04更新用户",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"type": "text",
+						"value": "9b1145bfb9ba7271ab0f799d4cd043a7"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"mobile\":\"18300961219\",\r\n    \"email\":\"1181659294@qq.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/updateUser",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"updateUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05测试发送邮件",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"type": "text",
+						"value": "8cd801e86e41e6f64cb00d47c68a4106"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"to\":\" 1181659294@qq.com\",\r\n    \"subject\":\"邮件修改用户密码\",\r\n    \"body\":\"<h1>这是一封测试邮件</h1>\",\r\n    \"cc\": [\"506820172@qq.com\",\"18300851725@163.com\"],\r\n    \"from_name\": \"来自于测试\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/testSendEmail",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"testSendEmail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "06测试发送邮件2，链式调用",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"type": "text",
+						"value": "8cd801e86e41e6f64cb00d47c68a4106"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"to\":\" 1181659294@qq.com\",\r\n    \"subject\":\"邮件修改用户密码\",\r\n    \"body\":\"<h1>这是一封测试邮件</h1>\",\r\n    \"cc\": [\"506820172@qq.com\",\"18300851725@163.com\"],\r\n    \"from_name\": \"链式调用测试\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/testSendEmail2",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"testSendEmail2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "07获取验证码",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"email\":\"506820172@qq.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/getCodeByEmail",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"getCodeByEmail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "08重置密码",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"email\":\"506820172@qq.com\",\r\n    \"code\":\"dCDL07\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "www.tp6-test.com/resetPassword",
+					"host": [
+						"www",
+						"tp6-test",
+						"com"
+					],
+					"path": [
+						"resetPassword"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
