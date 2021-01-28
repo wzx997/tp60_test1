@@ -14,7 +14,8 @@ class Test extends BaseController
      */
     public function test2()
     {
-        return $this->resSuccess([], '测试post路由');
+        $data = $this->request->post();
+        return $this->resSuccess($data, '测试post路由');
     }
 
     /**

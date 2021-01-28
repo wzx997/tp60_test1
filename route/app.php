@@ -32,3 +32,11 @@ Route::get('test3', 'test.Test/test3');
 // 用户模块
 Route::post('reg', 'user.User/reg'); //注册
 Route::post('login', 'user.User/login'); //登录
+Route::post('getUserList', 'user.User/getUserList'); //查询用户列表
+Route::post('updateUser', 'user.User/updateUser'); // 更新用户
+Route::post('getCodeByEmail', 'user.User/getCodeByEmail'); // 获取验证码
+Route::post('resetPassword', 'user.User/resetPassword'); // 获取验证码
+
+// 测试模块
+Route::post('testSendEmail', 'common.TestAPI/testSendEmail'); // 测试发送邮件
+Route::post('testSendEmail2', 'common.TestAPI/testSendEmail2'); // 测试发送邮件
