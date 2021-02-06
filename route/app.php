@@ -40,3 +40,4 @@ Route::post('resetPassword', 'user.User/resetPassword'); // 获取验证码
 // 测试模块
 Route::post('testSendEmail', 'common.TestAPI/testSendEmail'); // 测试发送邮件
 Route::post('testSendEmail2', 'common.TestAPI/testSendEmail2'); // 测试发送邮件
+Route::post('uploadFile', 'test.Test/uploadFile'); // 测试文件上传
